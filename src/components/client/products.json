@@ -1,0 +1,65 @@
+[
+    {
+      "name": "HP envy 15",
+      "image": "https://images.pexels.com/photos/844733/pexels-photo-844733.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "description": "Brand new",
+      "category": "laptops",
+      "price": "2000"
+    },
+    {
+      "name": "Dell inspiron",
+      "image": "",
+      "description": "refurbished",
+      "category": "laptops",
+      "price": "55000"
+    },
+    {
+      "name": "Macbook air",
+      "image": "",
+      "description": "brand new",
+      "category": "Laptops",
+      "price": "250"
+    },
+    {
+      "name": "Huawei y7",
+      "image": "",
+      "description": "brand new",
+      "category": "mobilephones",
+      "price": "20090"
+    },
+    {
+      "name": "Nokia x201",
+      "image": "",
+      "description": "used",
+      "category": "mobilephones",
+      "price": "9500"
+    },
+    {
+      "name": "Tecno k1",
+      "image": "",
+      "description": "new",
+      "category": "mobilephones",
+      "price": "18999"
+    },
+    {
+      "name": "dress",
+      "image": "",
+      "description": "chiffon",
+      "category": "clothes",
+      "price": "55"
+    },
+    {
+      "name": "short",
+      "image": "",
+      "description": "red",
+      "category": "clothes",
+      "price": "900"
+    },
+    {
+      "name": "T-shirt",
+      "image": "",
+      "description": "blue",
+      "category": "clothes",
+      "price": "50"
+    }
+  ]
