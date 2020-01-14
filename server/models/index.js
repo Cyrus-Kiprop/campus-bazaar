@@ -9,7 +9,7 @@ const userSchema = new Schema({
 });
 
 const productSchema = new Schema({
-  productImage: { type: String },
+  imageUrl: { type: String },
   productName: { type: String, required: true },
   description: { type: String, required: true },
   location: { type: String, required: true },

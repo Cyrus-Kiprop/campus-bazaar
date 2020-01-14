@@ -52,22 +52,23 @@ const { User, Product } = require("../models/index");
 
 // user routes
 router.post("/addProduct", upload.single("UploadedFile"), async (req, res) => {
-  console.log(req.body); // this is an object holding the details of the registering user
-  const productImage = req.file.path.substr(8);
+  // console.log(req.body); // this is an object holding the details of the registering user
+  // const productImage = req.file.path.substr(8);
+  // console.log(req.file);
 
-  console.log(req.file.path);
-  const { productName, description, price, location } = req.body;
+  // // console.log(req.file.path);
+  const { imageUrl, productName, description, price, location } = req.body;
 
   try {
     // there is no validation
     const newProduct = {
-      productImage,
+      imageUrl,
       price,
       productName,
       description,
       location
     };
-    // console.log(newProduct);
+    console.log(newProduct);
     const product = new Product(newProduct);
     const result = await product.save();
     console.log(result);
@@ -75,6 +76,14 @@ router.post("/addProduct", upload.single("UploadedFile"), async (req, res) => {
   } catch (error) {
     res.status(500).send(error.message);
   }
+});
+
+// get courses
+router.get("/getProducts", (req, res) => {
+  Product.find({}, (err, data) => {
+    if (err) throw err;
+    res.status(200).send(data);
+  });
 });
 
 // product routes

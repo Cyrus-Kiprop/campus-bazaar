@@ -19,6 +19,10 @@
   height: auto;
   transition: all 0.5s ease 0s;
 }
+.description{
+  font-size: 12px;
+  
+}
 .product-grid6:hover .product-image6 img {
   transform: scale(1.1);
 }
