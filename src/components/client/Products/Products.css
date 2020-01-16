@@ -19,9 +19,8 @@
   height: auto;
   transition: all 0.5s ease 0s;
 }
-.description{
+.description {
   font-size: 12px;
-  
 }
 .product-grid6:hover .product-image6 img {
   transform: scale(1.1);
@@ -62,6 +61,8 @@
 .product-grid6 .social {
   background-color: #fff;
   width: 100%;
+  outline: none;
+  border: none;
   padding: 0;
   margin: 0;
   list-style: none;

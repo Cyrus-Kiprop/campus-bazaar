@@ -12,6 +12,7 @@ import Laptops from "./components/client/laptops";
 import Contact from "./components/client/Contact";
 import Products from "./components/client/Products/Products";
 import AddProduct from "./components/client/Products/AddProduct";
+import Checkout from "./components/client/checkout/Checkout";
 
 function App() {
   return (
@@ -27,6 +28,8 @@ function App() {
           <Route path="/mobilephones" component={Mobilephones} />
           <Route path="/clothes" component={Clothes} />
           <Route path="/laptops" component={Laptops} />
+          <Route path="/checkout/:id" component={Checkout} />
+
           <Route path="/contact" component={Contact} />
           <Route path="/add-product" component={AddProduct} />
         </Switch>

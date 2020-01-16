@@ -8,6 +8,13 @@ export function getProduct(baseUrl) {
     .catch(handleError);
 }
 
+// get product by id  from the database
+export function getProductById(baseUrl) {
+  return fetch(baseUrl)
+    .then(handleResponse)
+    .catch(handleError);
+}
+
 // a dual purpose route for editing and creating courses
 export function saveProduct(baseUrl, product) {
   return fetch(baseUrl + (product.id || ""), {

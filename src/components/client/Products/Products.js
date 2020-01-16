@@ -46,23 +46,24 @@ export default function Products() {
                       <p>{product.description}</p>
                     </div>
                   </div>
-                  <ul className="social">
-                    <li>
+
+                  <a href={`/checkout/${product._id}`} className="social">
+                    {/* <li>
                       <a href data-tip="Quick View">
                         <i class="fas fa-search"></i>
                       </a>
-                    </li>
+                    </li> */}
                     <li>
-                      <a href data-tip="Add to Wishlist">
+                      <a href data-tip="Buy">
                         <i className="fa fa-shopping-bag" />
                       </a>
                     </li>
-                    <li>
+                    {/* <li>
                       <a href data-tip="Add to Cart">
                         <i className="fa fa-shopping-cart" />
                       </a>
-                    </li>
-                  </ul>
+                    </li> */}
+                  </a>
                 </div>
               </div>
             );
