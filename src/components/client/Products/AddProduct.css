@@ -65,3 +65,7 @@
 .Back {
   font-size: 25px;
 }
+
+.show-on-hover:hover > ul.dropdown-menu {
+  display: block;
+}

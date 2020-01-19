@@ -6,20 +6,24 @@ import {
   getProduct,
   deleteProduct
 } from "../../../api/productApi";
+import ImageUpload from "./imageUpload";
 
 export default function AddProduct(props) {
   //one state for everything
   const [productData, setProductData] = useState({});
-  // const [file, setFile] = useState();
+  const [dropDownValue, setDropDown] = useState("");
+  const [files, setFiles] = useState();
 
-  // const handleFile = event => {
-  //   event.preventDefault();
-  //   setFile({
-  //     ...event.target.files
-  //   });
-  // };
+  const handleDropdown = event => {
+    let selectedValue = event.target.value;
+    console.log([...dropDownValue]);
 
-  console.log(productData);
+    setDropDown(selectedValue);
+  };
+
+  // console.log(productData);
+
+  console.log(files);
 
   // handler functions
   const handleChange = event => {
@@ -35,11 +39,18 @@ export default function AddProduct(props) {
 
   const handleSubmit = async event => {
     event.preventDefault();
+    const formData = new FormData();
     console.log(productData);
     const data = {
-      ...productData
+      ...productData,
+      category: dropDownValue
     };
-    const response = await axios.post(`/api/addProduct`, data);
+    formData.append("image", files);
+
+    console.log(formData);
+    const response = await (axios.post(`/api/addProduct`, formData, {
+      header: { "Content-Type": "multipart/form-data" }
+    }) && axios.post(`/api/addProduct`, data));
     console.log(response.data);
     console.log(props.history);
     props.history.push("/products");
@@ -52,40 +63,19 @@ export default function AddProduct(props) {
       </div>
       <p className="h2 text-center">Add Product</p>
       <form onSubmit={handleSubmit}>
-        {/* <div className="preview text-center">
-          <img
-            className="preview-img"
-            src="http://simpleicon.com/wp-content/uploads/account.png"
-            alt="Product"
-            width={200}
-            height={200}
-          />
-          <div className="browse-button">
-            <i className="fa fa-pencil-alt" />
-            <input
-              className="browse-input"
-              type="file"
-              onChange={handleFile}
-              required
-              name="UploadedFile"
-              id="UploadedFile"
-            />
-          </div>
-          <span className="Error" />
-        </div> */}
+        <ImageUpload files={files} setFiles={setFiles} />
 
-        <div className="form-group">
-          <label>Image Url:</label>
-          <input
-            className="form-control"
-            type="text"
-            name="imageUrl"
-            onChange={handleChange}
-            required
-            placeholder="Enter image url"
-          />
-          <span className="Error" />
-        </div>
+        <select
+          name="customSearch"
+          className="custom-search-select"
+          onChange={handleDropdown}
+        >
+          <option>Category</option>
+          <option>Laptops</option>
+          <option>Phones</option>
+          <option>Clothes</option>
+        </select>
+
         <div className="form-group">
           <label>Product Name:</label>
           <input

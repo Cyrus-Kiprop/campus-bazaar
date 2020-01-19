@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const fileUpload = require("express-fileupload");
 
 //routes
 
@@ -23,16 +24,17 @@ app.get("/", (req, res) => {
 });
 
 // mounting of routing middleware
+app.use(fileUpload());
+
 app.use("/api", require("./routes/index"));
 
 // registering our routes
 
 // creating the server and connecting to the database
+
+const db = process.env.MONGO_URI_KEY;
 mongoose
-  .connect(
-    "mongodb+srv://cyrus254:@Ashphalt254@cluster0-lu0o4.mongodb.net/test?retryWrites=true&w=majority",
-    { useNewUrlParser: true }
-  )
+  .connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
     app.listen(4000, () => {
       console.log("Listening on port 4000");

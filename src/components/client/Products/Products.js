@@ -31,7 +31,7 @@ export default function Products() {
                 <div className="product-grid6">
                   <div className="product-image6">
                     <a href="#">
-                      <img className="pic-1" src={product.imageUrl} />
+                      <img className="pic-1" src={product.imagePath} />
                     </a>
                   </div>
                   <div className="product-content">
@@ -39,7 +39,7 @@ export default function Products() {
                       <a href="#">{product.productName}</a>
                     </h3>
                     <div className="price">
-                      {product.price}
+                      {`Ksh ${product.price}`}
                       {/* <span>$14.00</span> */}
                     </div>
                     <div className="description">
