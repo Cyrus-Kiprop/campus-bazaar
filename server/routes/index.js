@@ -1,5 +1,12 @@
 const router = require("express").Router();
 const path = require("path");
+const passport = require("passport");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
+
+require("dotenv").config();
+
+const secret = process.env.SECRET;
 
 //models
 const { User, Product } = require("../models/index");
@@ -7,6 +14,71 @@ const { User, Product } = require("../models/index");
 // stores the new image genreate
 let newImage;
 let finalProduct;
+
+// User api endpoints
+router.post("/register", (req, res) => {
+  // check to see if the email exist in the database
+  User.findOne({ email: req.body.email }).then(user => {
+    if (user) {
+      let error = "Email Address Exists in Database.";
+      return res.status(400).json(error);
+    } else {
+      const newUser = new User({
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        phone: req.body.phone,
+        userName: req.body.userName,
+        email: req.body.email,
+        password: req.body.password
+      });
+      bcrypt.genSalt(10, (err, salt) => {
+        if (err) throw err;
+        bcrypt.hash(newUser.password, salt, (err, hash) => {
+          if (err) throw err;
+          newUser.password = hash;
+          newUser
+            .save()
+            .then(user => res.json(user))
+            .catch(err => res.status(400).json(err));
+        });
+      });
+    }
+  });
+});
+
+// login routes
+router.post("/login", (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+  let errors = {};
+  User.findOne({ email }).then(user => {
+    if (!user) {
+      errors.email = "No Account Found";
+      return res.status(404).json(errors);
+    }
+    bcrypt.compare(password, user.password).then(isMatch => {
+      if (isMatch) {
+        const payload = {
+          id: user._id,
+          name: user.email
+        };
+        jwt.sign(payload, secret, { expiresIn: 36000 }, (err, token) => {
+          if (err)
+            res.status(500).json({ error: "Error signing token", raw: err });
+
+          res.json({
+            success: true,
+            user: user,
+            token: `Bearer ${token}`
+          });
+        });
+      } else {
+        errors.password = "Password is incorrect";
+        res.status(400).json(errors);
+      }
+    });
+  });
+});
 
 // user routes
 router.post("/addProduct", async (req, res) => {
@@ -36,36 +108,17 @@ router.post("/addProduct", async (req, res) => {
         finalProduct = data;
         console.log(finalProduct);
 
-        if(finalProduct && Object.keys(finalProduct).length > 1 ){
+        if (finalProduct && Object.keys(finalProduct).length > 1) {
           const product = new Product(finalProduct);
-            const result = await product.save();
-            console.log(result);
-            res.send(result).status(200);        }
+          const result = await product.save();
+          console.log(result);
+          res.send(result).status(200);
+        }
       }
     }
   } catch (error) {
     console.log(error.stack);
-    
   }
-
-  // try {
-  //   // there is no validation
-  //   const newProduct = {
-  //     imageUrl,
-  //     price,
-  //     productName,
-  //     description,
-  //     location,
-  //     category
-  //   };
-  //   console.log(newProduct);
-  //   const product = new Product(newProduct);
-  //   const result = await product.save();
-  //   console.log(result);
-  //   res.send(result);
-  // } catch (error) {
-  //   res.status(500).send(error.message);
-  // }
 });
 
 // get courses
@@ -100,20 +153,10 @@ router.get(`/getProductsById/:id`, (req, res) => {
     });
 });
 
-// product routes
-// router.post("/addProduct", (req, res) => {
-//   console.log(req.body);
-
-//   const newProduct = new Product(req.body);
-//   newProduct
-//     .save()
-//     .then(result => {
-//       res.send(result).status(200);
-//     })
-//     .catch(err => {
-//       console.log(err.message);
-//       res.send(err.message);
-//     });
-// });
+router.get(
+  "/homepage",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => res.send("This is our homepage")
+);
 
 module.exports = router;

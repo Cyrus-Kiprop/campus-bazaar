@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Products.css";
+import ls from "local-storage";
 
 import {
   saveProduct,
@@ -9,17 +10,25 @@ import {
 
 export default function Products() {
   const [data, setData] = useState([]);
+  const [user, setUser] = useState();
 
   // fetching data from the local database
   useEffect(() => {
     getProduct(`/api/getProducts`).then(fetchedData => {
       // console.log(fetchedData);
       setData([...fetchedData]);
+      const id = ls.get(`id`);
+      const phone = ls.get(`phone`);
+      setUser({ ...user });
+      setUser({
+        ...user,
+        id,
+        phone
+      });
     });
   }, []);
 
-  console.log(data);
-
+  console.log(user);
   return (
     <div className="container">
       <h3 className="h3">All Products </h3>
@@ -30,7 +39,7 @@ export default function Products() {
               <div className="col-md-3 col-sm-6">
                 <div className="product-grid6">
                   <div className="product-image6">
-                    <a href="#">
+                    <a href="#!">
                       <img className="pic-1" src={product.imagePath} />
                     </a>
                   </div>
